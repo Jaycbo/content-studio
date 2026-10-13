@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "Save to Luxeva",
+  "description": "Send the TikTok reference you choose to Luxeva Content Studio. No video downloads or background tracking.",
+  "version": "0.1.0",
+  "permissions": ["activeTab", "scripting"],
+  "action": {"default_popup": "popup.html", "default_title": "Save to Luxeva"}
+}
