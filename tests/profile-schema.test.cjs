@@ -1,0 +1,14 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const context=vm.createContext({});vm.runInContext(fs.readFileSync('public/studio/data/profile-schema.js','utf8'),context);const S=context.LuxevaProfileSchema;
+assert.equal(S.sections.length,8);assert.equal(new Set(S.sections.map(s=>s.id)).size,8);
+for(const title of ['Identity','Visual / Style','Voice / Tone','Boundaries / Off-Limits','Platform Links','Target Benchmarks','Content Vault Tags','Weekly Filming Quota Tracking'])assert(S.sections.some(s=>s.title===title));
+for(const f of Object.values(S.fields))assert(['internal','chatter','smm','public'].includes(f.sensitivity));
+assert.equal(S.flags['details.legalName'],'internal');assert.equal(S.flags['details.favorites'],'chatter');assert.equal(S.flags['details.targetMarket'],'smm');assert.equal(S.flags.name,'public');
+const profile=S.stamp({name:'Creator',dateOfBirth:'2000-01-01',details:{favorites:[{Type:'Food',Value:'Pasta'}],revenueSplit:'60'}});S.validate(profile);assert.equal(profile.name,'Creator');
+assert.throws(()=>S.validate({details:{revenueSplit:'101'}}),/Invalid/);
+assert.throws(()=>S.validate({details:{weight:'-1'}}),/Invalid/);
+assert.throws(()=>S.validate({details:{contractStart:'2026-02-01',contractEnd:'2026-01-01'}}),/follow/);
+assert.throws(()=>S.validate({details:{favorites:['Pasta']}}),/Invalid/);
+assert.throws(()=>S.validate({fieldSensitivity:{name:'secret'}}),/sensitivity/);
+assert.equal(profile.dateOfBirth,'2000-01-01');assert.equal(profile.fieldSensitivity.photo,'public');
+console.log('PASS: eight profile sections, sensitivity flags, legacy field preservation, repeatable rows and typed field validation.');

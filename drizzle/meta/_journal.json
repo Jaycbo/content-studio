@@ -8,6 +8,20 @@
       "when": 1791866112449,
       "tag": "0000_luxuriant_warhawk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1792159112682,
+      "tag": "0001_parched_oracle",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792159159623,
+      "tag": "0002_powerful_rage",
+      "breakpoints": true
     }
   ]
 }

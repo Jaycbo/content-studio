@@ -9,3 +9,12 @@ export const assignments = sqliteTable('reference_assignments', {
  referenceId: text('reference_id').notNull().references(()=>references.id,{onDelete:'cascade'}),
  modelId: text('model_id').notNull(), modelName: text('model_name').notNull(), used: integer('used').notNull().default(0)
 }, table=>[primaryKey({columns:[table.referenceId,table.modelId]}),index('assignment_model').on(table.modelId)]);
+
+// One private studio workspace; references retain their existing tables and IDs.
+export const studioWorkspace = sqliteTable('studio_workspace', {
+ id: text('id').primaryKey(), revision: integer('revision').notNull(),
+ payload: text('payload').notNull(), updatedAt: integer('updated_at').notNull()
+});
+export const studioChunks = sqliteTable('studio_workspace_chunks', {
+ id: integer('id').primaryKey(), payload: text('payload').notNull()
+});

@@ -11,7 +11,7 @@
  window.removeLibraryModel=id=>api({action:'removeModel',modelId:id});
  function showError(e){notice(e.message||'Something went wrong. Please try again.')}
  function chooseDialog(title,body){const d=document.createElement('dialog');d.className='lifecycle-dialog library-dialog';d.innerHTML=`<div class="bar"><h2>${esc(title)}</h2><button type="button" class="secondary" data-close>Close</button></div>${body}`;d.querySelector('[data-close]').onclick=()=>d.close();d.addEventListener('close',()=>d.remove());document.body.append(d);d.showModal();return d}
- function models(){return agency.models.filter(m=>!m.demo&&!['frozen','archived'].includes(m.status))}
+ function models(){return agency.models.filter(m=>!m.demo&&!Ops.locked(m))}
  function modelChoices(selected=[]){return models().map(m=>`<label class="library-model"><input type="checkbox" name="assign" value="${esc(m.id)}" ${selected.includes(m.id)?'checked':''}>${esc(m.model.name)}</label>`).join('')||'<p class="help">Add a real model under All models, or restore your model backup in this browser, to assign references.</p>'}
  function chosen(form){return [...form.querySelectorAll('input[name="assign"]:checked')].map(el=>{const m=models().find(m=>m.id===el.value);return m?{id:m.id,name:m.model.name}:null}).filter(Boolean)}
  async function mutate(data){await api(data);await window.renderLibrary()}
@@ -43,10 +43,10 @@
   d.querySelectorAll('[data-draft]').forEach(b=>b.onclick=()=>{
    const m=agency.models.find(m=>m.id===b.dataset.draft);
    if(!m){status.textContent='This model profile is not in this browser. Restore your model backup first.';return}
-   if(['frozen','archived'].includes(m.status)){status.textContent='Restore or unfreeze this model before creating an idea.';return}
+   if(Ops.locked(m)){status.textContent='Restore this profile and set its status to Active or Pending before creating an idea.';return}
    let idea=m.ideas.find(i=>i.libraryReferenceId===r.id||i.edits?.reference===r.url);
    if(!idea){idea={id:crypto.randomUUID(),format:'Custom idea',source:null,approved:false,week:1,libraryReferenceId:r.id,edits:{title:(r.caption||r.creator+' reference').slice(0,200),hook:'',shots:'',audio:r.audio,reference:r.url}};m.ideas.push(idea);if(!save()){m.ideas.pop();status.textContent='Could not save the idea in this browser. Export your models and check storage.';return}}
-   d.close();switchModel(m.id,'ideas');openIdeaBrief(idea.id);
+   if(switchModel(m.id,'ideas')){d.close();openIdeaBrief(idea.id)}
   });
  }
  function openCapture(raw={}){
