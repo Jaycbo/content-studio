@@ -31,7 +31,7 @@ function evaluate(post,catalog,now=Date.now()){
  const multiplier=post.views/baseline,z=.67448975*(post.views-baseline)/mad;
  return {pass:multiplier>=3&&z>=3,multiplier,z,baseline,mad,sampleSize:prior.length,reason:multiplier>=3&&z>=3?'Both thresholds passed':'Below dual threshold'};
 }
-function tags(post,bank){const text=post.caption.toLowerCase();return bank.terms.filter(t=>['location','hook','format'].includes(t.category)&&[t.label,...t.aliases].some(a=>{const escaped=a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(^|[^a-z0-9])'+escaped+'([^a-z0-9]|$)','i').test(text)}))}
+function tags(post,bank){const text=post.caption.normalize('NFKC').replace(/[_\s]+/g,' ').toLowerCase();return bank.terms.filter(t=>['location','hook','format'].includes(t.category)&&[t.label,...t.aliases].some(a=>{const escaped=a.normalize('NFKC').replace(/[_\s]+/g,' ').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(^|[^a-z0-9])'+escaped+'([^a-z0-9]|$)','i').test(text)}))}
 function recommend(post,catalog,model,bank,now){const metrics=evaluate(post,catalog,now);if(!metrics.pass)return null;const matched=tags(post,bank),rules=model.taxonomyRules||[],d=model.details||{};
  if(d.contentPubliccontent==='Not Allowed'||matched.some(t=>rules.some(r=>r.termId===t.id&&r.decision==='Not Allowed')))return null;
  const unresolved=matched.length<3||['location','hook','format'].some(c=>!matched.some(t=>t.category===c))||matched.some(t=>!rules.some(r=>r.termId===t.id&&r.decision==='Allowed'));
