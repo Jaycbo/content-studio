@@ -1,0 +1,235 @@
+{
+  "sources": [
+    {
+      "id": "faye.belincii_p1",
+      "creatorHandle": "@faye.belincii",
+      "viewCount": 240000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @faye.belincii #demo"
+    },
+    {
+      "id": "faye.belincii_p2",
+      "creatorHandle": "@faye.belincii",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @faye.belincii"
+    },
+    {
+      "id": "faye.belincii_p3",
+      "creatorHandle": "@faye.belincii",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @faye.belincii"
+    },
+    {
+      "id": "minalatinaof_p1",
+      "creatorHandle": "@minalatinaof",
+      "viewCount": 360000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @minalatinaof #demo"
+    },
+    {
+      "id": "minalatinaof_p2",
+      "creatorHandle": "@minalatinaof",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @minalatinaof"
+    },
+    {
+      "id": "minalatinaof_p3",
+      "creatorHandle": "@minalatinaof",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @minalatinaof"
+    },
+    {
+      "id": "aishah_p1",
+      "creatorHandle": "@aishah",
+      "viewCount": 480000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @aishah #demo"
+    },
+    {
+      "id": "aishah_p2",
+      "creatorHandle": "@aishah",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @aishah"
+    },
+    {
+      "id": "aishah_p3",
+      "creatorHandle": "@aishah",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @aishah"
+    },
+    {
+      "id": "leximarvell_p1",
+      "creatorHandle": "@leximarvell",
+      "viewCount": 600000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @leximarvell #demo"
+    },
+    {
+      "id": "leximarvell_p2",
+      "creatorHandle": "@leximarvell",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @leximarvell"
+    },
+    {
+      "id": "leximarvell_p3",
+      "creatorHandle": "@leximarvell",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @leximarvell"
+    },
+    {
+      "id": "jellybeanxooo_p1",
+      "creatorHandle": "@jellybeanxooo",
+      "viewCount": 720000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @jellybeanxooo #demo"
+    },
+    {
+      "id": "jellybeanxooo_p2",
+      "creatorHandle": "@jellybeanxooo",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @jellybeanxooo"
+    },
+    {
+      "id": "jellybeanxooo_p3",
+      "creatorHandle": "@jellybeanxooo",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @jellybeanxooo"
+    },
+    {
+      "id": "realalinnarosee_p1",
+      "creatorHandle": "@realalinnarosee",
+      "viewCount": 840000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @realalinnarosee #demo"
+    },
+    {
+      "id": "realalinnarosee_p2",
+      "creatorHandle": "@realalinnarosee",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @realalinnarosee"
+    },
+    {
+      "id": "realalinnarosee_p3",
+      "creatorHandle": "@realalinnarosee",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @realalinnarosee"
+    },
+    {
+      "id": "lelasohna_p1",
+      "creatorHandle": "@lelasohna",
+      "viewCount": 960000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @lelasohna #demo"
+    },
+    {
+      "id": "lelasohna_p2",
+      "creatorHandle": "@lelasohna",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @lelasohna"
+    },
+    {
+      "id": "lelasohna_p3",
+      "creatorHandle": "@lelasohna",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @lelasohna"
+    },
+    {
+      "id": "isabela.ramirez31_p1",
+      "creatorHandle": "@isabela.ramirez31",
+      "viewCount": 1080000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @isabela.ramirez31 #demo"
+    },
+    {
+      "id": "isabela.ramirez31_p2",
+      "creatorHandle": "@isabela.ramirez31",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @isabela.ramirez31"
+    },
+    {
+      "id": "isabela.ramirez31_p3",
+      "creatorHandle": "@isabela.ramirez31",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @isabela.ramirez31"
+    },
+    {
+      "id": "woesenpai69_p1",
+      "creatorHandle": "@woesenpai69",
+      "viewCount": 1200000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @woesenpai69 #demo"
+    },
+    {
+      "id": "woesenpai69_p2",
+      "creatorHandle": "@woesenpai69",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @woesenpai69"
+    },
+    {
+      "id": "woesenpai69_p3",
+      "creatorHandle": "@woesenpai69",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @woesenpai69"
+    },
+    {
+      "id": "savaschulz_p1",
+      "creatorHandle": "@savaschulz",
+      "viewCount": 1320000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @savaschulz #demo"
+    },
+    {
+      "id": "savaschulz_p2",
+      "creatorHandle": "@savaschulz",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @savaschulz"
+    },
+    {
+      "id": "savaschulz_p3",
+      "creatorHandle": "@savaschulz",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @savaschulz"
+    },
+    {
+      "id": "sophieraiin_p1",
+      "creatorHandle": "@sophieraiin",
+      "viewCount": 1440000,
+      "publishedAt": "2026-10-22T12:00:00Z",
+      "caption": "Sample spike post for @sophieraiin #demo"
+    },
+    {
+      "id": "sophieraiin_p2",
+      "creatorHandle": "@sophieraiin",
+      "viewCount": 40000,
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "caption": "Sample baseline post 1 for @sophieraiin"
+    },
+    {
+      "id": "sophieraiin_p3",
+      "creatorHandle": "@sophieraiin",
+      "viewCount": 35000,
+      "publishedAt": "2026-10-08T12:00:00Z",
+      "caption": "Sample baseline post 2 for @sophieraiin"
+    }
+  ]
+}

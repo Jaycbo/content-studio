@@ -1,4 +1,5 @@
 import vinext from "vinext";
+import { radarDevPlugin } from "./scripts/analytics/radar-dev-plugin.mjs";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
@@ -61,6 +62,7 @@ export default defineConfig(async ({ command }) => {
         : {}),
     },
     plugins: [
+      ...(!managedLinux && command === "serve" ? [radarDevPlugin()] : []),
       vinext(),
       sites({ mockAuth: !managedLinux }),
       connectorPreview(),

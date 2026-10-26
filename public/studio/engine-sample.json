@@ -1,0 +1,31 @@
+{
+  "schema_version": "2.0.0",
+  "outliers": [
+    {
+      "synthetic": true,
+      "target_model": "Demo creator",
+      "outlier_metadata": {
+        "url": "https://www.tiktok.com/@luxeva_synthetic_fixture/video/1000000000000000001",
+        "views": 90000,
+        "title": "Sample: golden-hour outfit transition",
+        "competitor_handle": "SYNTHETIC SAMPLE"
+      },
+      "baseline": {
+        "median_views": 12500,
+        "mad_views": 1500,
+        "sample_size": 18
+      },
+      "routing": {
+        "status": "matched_requires_review"
+      },
+      "olivia_script_brief": {
+        "title": "Sample: golden-hour outfit transition",
+        "on_screen_text_sequence": [
+          {
+            "text": "Coffee-date era or golden-hour glam?"
+          }
+        ]
+      }
+    }
+  ]
+}

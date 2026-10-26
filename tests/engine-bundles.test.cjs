@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs'),vm=require('node:vm');const ctx={URL};vm.createContext(ctx);vm.runInContext(fs.readFileSync('public/studio/data/engine-bundles.js','utf8'),ctx);const E=ctx.LuxevaEngineBundles;
+const sample=E.sample();assert.equal(sample.synthetic,true);assert.equal(sample.multiplier,7.2);assert.equal(E.merge([sample],[sample]).length,1);
+const entry={outlier_metadata:{url:'https://tiktok.com/@test/video/123',views:90000},baseline:{median_views:12500,mad_views:1500,sample_size:18},routing:{status:'blocked'},archive:{mp4:'/private/media.mp4'},ocr:{sequence:['unneeded']}};
+const result=E.parse([entry])[0];assert.equal(result.routing,'blocked');assert.equal(result.archive,undefined);assert.equal(result.ocr,undefined);assert.equal(result.stages.bottom_of_funnel[1],'[PPV_COPY_PLACEHOLDER]');
+assert.throws(()=>E.parse([{...entry,outlier_metadata:{...entry.outlier_metadata,views:13000}}]),/dual-gate/);
+assert.throws(()=>E.parse([{...entry,baseline:{...entry.baseline,mad_views:0}}]),/baseline/);
+assert.throws(()=>E.parse([{...entry,outlier_metadata:{...entry.outlier_metadata,url:'javascript:alert(1)'}}]));
+assert.throws(()=>E.parse({schema_version:'future',outliers:[entry]}));
+assert.throws(()=>E.merge(Array.from({length:100},(_,n)=>({...sample,key:String(n)})),[sample]),/100/);
+console.log('Engine bundles: parsing, dual gates, blocked routing, deduplication, lean storage, unsafe URLs, schema and limits passed.');

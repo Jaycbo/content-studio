@@ -144,7 +144,7 @@
       <div class="header-sub">Algorithmic scoring combining velocity, engagement rate, and share ratios</div>
     </div>
     <div class="header-actions">
-      <button onclick="this.innerText='🤖 Generating...'; fetch('/api/run-ai', {method:'POST'}).then(()=>location.reload())" style="background: #8b5cf6; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 12px;">🤖 Generate AI Briefs</button>
+      
     </div>
   </header>
 
@@ -159,6 +159,13 @@
     <span id="count-tag" style="font-size: 12px; color: #64748b;">Loading...</span>
   </div>
 
+  
+  <div id="action-toolbar" style="display: flex; gap: 10px; margin-bottom: 20px; padding: 0; flex-wrap: wrap; width: 100%;">
+    <button onclick="window.UI.toggleSelectAll()" style="padding: 8px 16px; border-radius: 6px; border: 1px solid #3b435d; background: #1e2230; color: white; cursor: pointer; font-weight: 600;">☑️ Select All</button>
+    <div style="flex-grow: 1;"></div>
+    <button onclick="window.UI.deleteSelected(this)" style="padding: 8px 16px; border-radius: 6px; border: 1px solid #7f1d1d; background: #450a0a; color: white; cursor: pointer; font-weight: 600;">🗑️ Delete Selected</button>
+    <button onclick="window.UI.openBrief()" style="padding: 8px 16px; border-radius: 6px; border: none; background: #2ea043; color: white; cursor: pointer; font-weight: bold;">📝 Generate Brief</button>
+  </div>
   <div class="grid" id="container"></div>
 
   <script>
@@ -202,6 +209,7 @@
                onmouseenter="playPreview(this, '${item.media.animatedCoverUrl}')"
                onmouseleave="stopPreview(this, '${item.media.coverUrl}')">
             <span class="rank-badge">#${idx + 1}</span>
+            <input type="checkbox" class="card-select" onclick="event.stopPropagation()" data-id="${item.id || ''}" data-filename="${item._filename || ''}" data-handle="${item.creator?.handle || ''}" data-url="${item.url || ''}" data-sound="${(item.music?.title || '' ).replace(/"/g, '&quot;')}" data-sound-url="${item.music?.url || ''}" data-caption="${(item.caption || '' ).replace(/"/g, '&quot;')}" data-followers="${item.authorStats?.followerCount || item.creator?.followers || 0}" data-score="${item.opportunityScore || 0}" data-time="${item.createTime || 0}" style="position: absolute; top: 12px; left: 12px; z-index: 10; width: 22px; height: 22px; cursor: pointer; accent-color: #ff0050; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
             <img src="${item.media.coverUrl}" alt="Thumbnail" referrerpolicy="no-referrer" />
           </div>
 
@@ -268,5 +276,88 @@
 
     loadData();
   </script>
-</body>
+
+  <div id="brief-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: #1a1d27; padding: 20px; border-radius: 12px; width: 600px; max-width: 90%; max-height: 85vh; display: flex; flex-direction: column; border: 1px solid #3b435d;">
+      <h3 style="margin-top: 0; margin-bottom: 15px;">📱 WhatsApp Production Briefs</h3>
+      <textarea id="brief-text" style="width: 100%; flex-grow: 1; min-height: 350px; background: #0f1117; color: white; border: 1px solid #2a2e3d; padding: 12px; font-family: monospace; margin-bottom: 15px; border-radius: 6px; resize: vertical;"></textarea>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button onclick="document.getElementById('brief-modal').style.display='none'" style="padding: 8px 16px; border-radius: 6px; border: 1px solid #3b435d; background: #1e2230; color: white; cursor: pointer;">Close</button>
+        <button onclick="window.UI.copyBrief()" style="padding: 8px 16px; border-radius: 6px; border: none; background: #2ea043; color: white; cursor: pointer; font-weight: bold;">📋 Copy All</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.UI = {
+      isFresh: false, hideCelebs: false,
+      toggleSelectAll() {
+        const cbs = Array.from(document.querySelectorAll('.card-select')).filter(cb => cb.parentElement.style.display !== 'none');
+        const all = cbs.length > 0 && cbs.every(c => c.checked);
+        cbs.forEach(c => c.checked = !all);
+      },
+      toggleFresh() {
+        this.isFresh = !this.isFresh;
+        document.getElementById('btn-fresh').style.background = this.isFresh ? '#3b435d' : '#1e2230';
+        this.applySort();
+      },
+      toggleCelebs() {
+        this.hideCelebs = !this.hideCelebs;
+        document.getElementById('btn-celebs').style.background = this.hideCelebs ? '#3b435d' : '#1e2230';
+        this.applyFilter();
+      },
+      applyFilter() {
+        document.querySelectorAll('.card-select').forEach(cb => {
+          const card = cb.parentElement; 
+          const followers = parseInt(cb.dataset.followers) || 0;
+          card.style.display = (this.hideCelebs && followers >= 1000000) ? 'none' : '';
+        });
+      },
+      applySort() {
+        const container = document.getElementById('container');
+        const cards = Array.from(container.children);
+        cards.sort((a, b) => {
+          const cbA = a.querySelector('.card-select'); const cbB = b.querySelector('.card-select');
+          if (!cbA || !cbB) return 0;
+          return this.isFresh ? 
+            (parseInt(cbB.dataset.time) || 0) - (parseInt(cbA.dataset.time) || 0) : 
+            (parseInt(cbB.dataset.score) || 0) - (parseInt(cbA.dataset.score) || 0);
+        });
+        cards.forEach(card => container.appendChild(card));
+      },
+      getSelected() { return Array.from(document.querySelectorAll('.card-select:checked')); },
+      async deleteSelected(btn) {
+        const cbs = this.getSelected();
+        if (cbs.length === 0) return alert('Select videos to delete.');
+        if (!confirm('Delete ' + cbs.length + ' videos permanently?')) return;
+        const filenames = cbs.map(cb => cb.dataset.filename).filter(Boolean);
+        const ids = cbs.map(cb => cb.dataset.id).filter(Boolean);
+        const oldText = btn.innerText; btn.innerText = '🗑️ Deleting...';
+        try {
+          await fetch('/api/delete', { method: 'POST', body: JSON.stringify({ filenames, ids }) });
+          location.reload();
+        } catch(e) { alert('Failed to delete'); btn.innerText = oldText; }
+      },
+      openBrief() {
+        const cbs = this.getSelected();
+        if (cbs.length === 0) return alert('Select videos first.');
+        let text = '🎬 *TIKTOK PRODUCTION BRIEFS*\n\n';
+        cbs.forEach((cb, i) => {
+          const d = cb.dataset;
+          const url = d.url || (d.id ? 'https://www.tiktok.com/@' + d.handle + '/video/' + d.id : 'N/A');
+          text += '*Video ' + (i+1) + ': @' + d.handle + '*\n';
+          text += '🔗 Reference: ' + url + '\n';
+          text += '🎵 Audio: ' + d.sound + '\n';
+          text += '🔊 Link: ' + (d.soundUrl || 'N/A') + '\n';
+          text += '📝 Caption: ' + d.caption + '\n\n---\n\n';
+        });
+        document.getElementById('brief-text').value = text;
+        document.getElementById('brief-modal').style.display = 'flex';
+      },
+      copyBrief() {
+        const text = document.getElementById('brief-text').value;
+        navigator.clipboard.writeText(text).then(() => alert('✅ Copied to clipboard! Ready to paste in WhatsApp.'));
+      }
+    };
+  </script>
+  </body>
 </html>

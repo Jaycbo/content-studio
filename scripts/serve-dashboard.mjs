@@ -54,10 +54,27 @@ const server = http.createServer((req, res) => {
   } else if (req.url === '/api/briefs') {
     const briefsDir = 'var/briefs';
     const files = fs.existsSync(briefsDir) ? fs.readdirSync(briefsDir).filter(f => f.endsWith('.json')) : [];
-    const briefs = files.map(file => JSON.parse(fs.readFileSync(path.join(briefsDir, file), 'utf8')));
+    const briefs = files.map(file => { try { const d = JSON.parse(fs.readFileSync(path.join(briefsDir, file), 'utf8')); d._filename = file; return d; } catch(e) { return null; } }).filter(Boolean);
     briefs.sort((a, b) => a.rank - b.rank);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(briefs));
+  } else if (req.url === '/api/delete' && req.method === 'POST') {
+    let body = ''; req.on('data', chunk => body += chunk); req.on('end', () => {
+      try {
+        const { filenames, ids } = JSON.parse(body);
+        const blacklistPath = path.join('var', 'fyp-capture', 'blacklist.json');
+        let blacklist = fs.existsSync(blacklistPath) ? JSON.parse(fs.readFileSync(blacklistPath, 'utf8')) : [];
+        if (ids) blacklist.push(...ids);
+        fs.writeFileSync(blacklistPath, JSON.stringify([...new Set(blacklist)], null, 2));
+        if (filenames) {
+          filenames.forEach(f => {
+            const filepath = path.join('var/briefs', f);
+            if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+          });
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ success: true }));
+      } catch (err) { res.writeHead(500); res.end(JSON.stringify({ error: err.message })); }
+    });
   } else if (req.url === '/api/sync-har' && req.method === 'POST') {
     const files = fs.readdirSync(DOWNLOADS_DIR)
       .filter(f => f.toLowerCase().includes('tiktok') && (f.endsWith('.har') || f.endsWith('.json')))
